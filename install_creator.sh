@@ -6,8 +6,8 @@ tar -xvf util-linux-2.39.tar.xz
 cd util-linux-2.39
 ./configure --without-ncurses --disable-all-programs --enable-fdisk
 make fdisk
-cp disk-utils/fdisk ~/neutroxos/usr/sbin/
-ldd ~/neutroxos/usr/sbin/fdisk
+cp disk-utils/fdisk ~/rootfs/usr/sbin/
+ldd ~/rootfs/usr/sbin/fdisk
 cd ..
 
 wget https://downloads.sourceforge.net/project/e2fsprogs/e2fsprogs/1.46.5/e2fsprogs-1.46.5.tar.gz
@@ -15,8 +15,8 @@ tar -xzf e2fsprogs-1.46.5.tar.gz
 cd e2fsprogs-1.46.5
 ./configure --disable-shared --enable-static
 make mkfs.ext4
-cp e2fsck/mkfs.ext4 ~/neutroxos/usr/sbin/
-ldd ~/neutroxos/usr/sbin/mkfs.ext4
+cp e2fsck/mkfs.ext4 ~/rootfs/usr/sbin/
+ldd ~/rootfs/usr/sbin/mkfs.ext4
 cd ..
 
 wget https://ftp.gnu.org/gnu/tar/tar-1.34.tar.gz
@@ -24,15 +24,15 @@ tar -xzf tar-1.34.tar.gz
 cd tar-1.34
 ./configure --disable-shared --enable-static
 make
-cp src/tar ~/neutroxos/usr/sbin/
-ldd ~/neutroxos/usr/sbin/tar
-strip ~/neutroxos/usr/sbin/tar
+cp src/tar ~/rootfs/usr/sbin/
+ldd ~/rootfs/usr/sbin/tar
+strip ~/rootfs/usr/sbin/tar
 cd ..
 
 wget https://ftp.gnu.org/gnu/grub/grub-2.06.tar.gz
 tar -xzf grub-2.06.tar.gz
 cd grub-2.06
-./configure --prefix=/home/$USER/neutroxos/usr --with-platform=pc --target=x86_64
+./configure --prefix=/home/$USER/rootfs/usr --with-platform=pc --target=x86_64
 make
 make install
 cd ..
@@ -46,8 +46,8 @@ make install
 ldd ~/rootfs/usr/bin/chroot
 cd ..
 
-cp -r ~/rootfs/initramfs.cpio.gz ~/neutroxos/
-cat << 'EOF' > ~/neutroxos/install.sh
+cp -r ~/rootfs/initramfs.cpio.gz ~/rootfs/
+cat << 'EOF' > ~/rootfs/install.sh
 #!/bin/sh
 DISK='/dev/sda'
 BOOT_PARTITION="${DISK}1"
@@ -110,4 +110,4 @@ umount $MOUNT_POINT
 reboot
 EOF
 
-chmod +x ~/neutroxos/install.sh
+chmod +x ~/rootfs/install.sh
